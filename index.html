@@ -21,38 +21,42 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 220px;
+  width: 240px;
   height: 100vh;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  padding: 20px;
   position: fixed;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  padding: 20px;
 }
 
 .sidebar h2 {
   color: gold;
+  margin-bottom: 30px;
 }
 
 .nav-item {
-  margin: 20px 0;
+  margin: 18px 0;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 0.7;
+  transition: 0.2s;
 }
 
 .nav-item:hover {
   opacity: 1;
   color: gold;
+  transform: translateX(5px);
 }
 
 /* Main */
 .main {
-  margin-left: 240px;
-  padding: 40px;
+  margin-left: 260px;
+  padding: 30px;
+  width: 100%;
 }
 
 /* Cards */
 .card {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.07);
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 20px;
@@ -61,16 +65,41 @@ body {
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
 }
 
-/* Title */
-h1 {
+/* Sections */
+.section {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+
+/* Inputs */
+textarea, input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  margin-top: 10px;
+}
+
+/* Buttons */
+button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background: gold;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+h1,h2,h3 {
   color: gold;
-}
-
-ul {
-  line-height: 1.8;
 }
 </style>
 </head>
@@ -79,54 +108,181 @@ ul {
 
 <div class="container">
 
+  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>ASCEND</h2>
-    <div class="nav-item">🏠 Dashboard</div>
-    <div class="nav-item">🙏 Faith</div>
-    <div class="nav-item">📈 Trading</div>
-    <div class="nav-item">💰 Wealth</div>
-    <div class="nav-item">💪 Health</div>
-    <div class="nav-item">🌱 Business</div>
-    <div class="nav-item">📝 Journal</div>
+
+    <div class="nav-item" onclick="show('dashboard')">🏠 Dashboard</div>
+    <div class="nav-item" onclick="show('faith')">🙏 Faith</div>
+    <div class="nav-item" onclick="show('trading')">📈 Trading</div>
+    <div class="nav-item" onclick="show('wealth')">💰 Wealth</div>
+    <div class="nav-item" onclick="show('health')">💪 Health</div>
+    <div class="nav-item" onclick="show('business')">🌱 Business</div>
+    <div class="nav-item" onclick="show('journal')">📝 Journal</div>
   </div>
 
+  <!-- MAIN -->
   <div class="main">
 
-    <h1>Good Day, Nkosingphile</h1>
-    <p id="date"></p>
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="section active">
+      <h1>Good Day, Nkosingphile</h1>
+      <p id="date"></p>
 
-    <div class="card">
-      <h3>Today's Mission</h3>
-      <ul>
-        <li>Pray</li>
-        <li>Scripture Study</li>
-        <li>Exercise</li>
-        <li>Trading Analysis</li>
-        <li>Family Time</li>
-      </ul>
+      <div class="card">
+        <h3>Today's Mission</h3>
+        <ul>
+          <li>Pray</li>
+          <li>Scripture Study</li>
+          <li>Exercise</li>
+          <li>Trading Analysis</li>
+          <li>Family Time</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Quote of the Day</h3>
+        <p id="quote"></p>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>Top 3 Focus</h3>
-      <ul>
-        <li>Discipline over emotion</li>
-        <li>Execute trading plan</li>
-        <li>Build long-term consistency</li>
-      </ul>
+    <!-- FAITH -->
+    <div id="faith" class="section">
+      <h2>Faith</h2>
+      <div class="card">
+        <p>Daily scripture reflection and prayer focus.</p>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>Quote of the Day</h3>
-      <p>"Success is built in silence, daily discipline, and repetition."</p>
+    <!-- TRADING -->
+    <div id="trading" class="section">
+      <h2>Trading Journal</h2>
+
+      <div class="card">
+        <h3>New Trade Note</h3>
+        <textarea id="tradeNote" placeholder="Write trade idea..."></textarea>
+        <button onclick="saveTrade()">Save</button>
+      </div>
+
+      <div class="card">
+        <h3>Saved Trades</h3>
+        <ul id="tradeList"></ul>
+      </div>
+    </div>
+
+    <!-- WEALTH -->
+    <div id="wealth" class="section">
+      <h2>Wealth Tracker</h2>
+      <div class="card">
+        <p>Coming soon: Net worth + savings tracker</p>
+      </div>
+    </div>
+
+    <!-- HEALTH -->
+    <div id="health" class="section">
+      <h2>Health</h2>
+
+      <div class="card">
+        <label><input type="checkbox" onchange="saveHabit()"> Workout</label><br>
+        <label><input type="checkbox" onchange="saveHabit()"> Water intake</label><br>
+        <label><input type="checkbox" onchange="saveHabit()"> Sleep 7+ hours</label><br>
+        <label><input type="checkbox" onchange="saveHabit()"> No junk food</label>
+      </div>
+    </div>
+
+    <!-- BUSINESS -->
+    <div id="business" class="section">
+      <h2>Business</h2>
+      <div class="card">
+        <p>Track your egg business, income, and expansion plans.</p>
+      </div>
+    </div>
+
+    <!-- JOURNAL -->
+    <div id="journal" class="section">
+      <h2>Journal</h2>
+
+      <div class="card">
+        <textarea id="journalText" placeholder="Write your thoughts..."></textarea>
+        <button onclick="saveJournal()">Save Journal</button>
+      </div>
     </div>
 
   </div>
-
 </div>
 
 <script>
-document.getElementById("date").innerText =
-  new Date().toDateString();
+
+// DATE
+document.getElementById("date").innerText = new Date().toDateString();
+
+// QUOTE
+const quotes = [
+  "Discipline beats motivation.",
+  "Consistency creates success.",
+  "You become what you repeat.",
+  "Small daily wins create big results."
+];
+
+document.getElementById("quote").innerText =
+quotes[Math.floor(Math.random() * quotes.length)];
+
+// NAVIGATION
+function show(section) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(section).classList.add("active");
+}
+
+// JOURNAL SAVE
+function saveJournal() {
+  let text = document.getElementById("journalText").value;
+  localStorage.setItem("journal", text);
+  alert("Journal saved");
+}
+
+document.getElementById("journalText").value =
+localStorage.getItem("journal") || "";
+
+// TRADING SAVE
+function saveTrade() {
+  let note = document.getElementById("tradeNote").value;
+  let trades = JSON.parse(localStorage.getItem("trades") || "[]");
+  trades.push(note);
+  localStorage.setItem("trades", JSON.stringify(trades));
+  loadTrades();
+}
+
+function loadTrades() {
+  let trades = JSON.parse(localStorage.getItem("trades") || "[]");
+  let list = document.getElementById("tradeList");
+  list.innerHTML = "";
+  trades.forEach(t => {
+    let li = document.createElement("li");
+    li.innerText = t;
+    list.appendChild(li);
+  });
+}
+
+loadTrades();
+
+// HABITS
+function saveHabit() {
+  let checkboxes = document.querySelectorAll("input[type=checkbox]");
+  let data = [];
+  checkboxes.forEach(c => data.push(c.checked));
+  localStorage.setItem("habits", JSON.stringify(data));
+}
+
+function loadHabits() {
+  let data = JSON.parse(localStorage.getItem("habits") || "[]");
+  let checkboxes = document.querySelectorAll("input[type=checkbox]");
+  checkboxes.forEach((c, i) => {
+    c.checked = data[i] || false;
+  });
+}
+
+loadHabits();
+
 </script>
 
 </body>
